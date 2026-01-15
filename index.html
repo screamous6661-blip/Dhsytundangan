@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Pernikahan</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;700&family=Lato:wght@300;400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Scheherazade&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --sage:#c7a07a;
+      --sage-dark:#c7a07a;
+    }
+
+    body {
+      margin:0;
+      font-family:Georgia, sans-serif;
+      color:#c7a07a;
+      scroll-behavior:smooth;
+      background: url('floral-bg.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* Luxury font untuk nama mempelai */
+    .nama-luxury {
+      font-family: 'Great Vibes', cursive;
+      font-size:35px;
+      margin:50px 0;
+      color:#734128
+    ;
+    }
+
+    /* Cover */
+    .cover {
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      min-height:80vh;
+      text-align:center;
+      padding-top:80px;
+    }
+
+    .cover-box button {
+      background: linear-gradient(135deg,var(--sage),var(--sage-dark));
+      color:#fff;
+      border:none;
+      padding:12px 30px;
+      border-radius:28px;
+      font-size:15px;
+      cursor:pointer;
+      margin-top:20px;
+    }
+
+    .cover-photo {
+      width: 250px;
+      height: 250px;
+      margin: 0 auto 20px;
+      border-radius:50%;
+      overflow:hidden;
+      box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    }
+    .cover-photo img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    section {
+      min-height:100vh;
+      padding:32px 18px;
+      text-align:center;
+      opacity:0;
+      transform:translateY(30px);
+      transition:all .8s ease;
+      background: rgba(255,255,255,0.1);
+      border-radius:20px;
+      margin:16px 0;
+    }
+
+    section.show {
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .couple {
+      display:flex;
+      justify-content:center;
+      gap:24px;
+      flex-wrap:wrap;
+      margin-top:24px;
+    }
+    .person {
+      max-width:180px;
+    }
+    .person img {
+      width:100%;
+      height:230px;
+      object-fit:cover;
+      border-radius:20px;
+    }
+    .person p {
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .card {
+      background:#ffffffdd;
+      margin:14px auto;
+      padding:18px;
+      max-width:460px;
+      border-radius:20px;
+    }
+
+    .gallery {
+      display:flex;
+      gap:40px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      padding-bottom:30px;
+      min-height:30vh;
+    }
+    .gallery img {
+      width:520px;
+      height:350px;
+      border-radius:20px;
+      object-fit:cover;
+      scroll-snap-align: start;
+    }
+
+    /* Quran Verse */
+    .quran-verse {
+      margin-top:20px;
+      padding:20px;
+      background:#c7a07a;
+      border-radius:18px;
+      font-family: 'Scheherazade', Georgia, serif;
+      color:#2f3e2f;
+      line-height:1.7;
+      font-size:14px;
+      text-align:center;
+      opacity:0;
+      transform:translateY(20px);
+      transition:all 1s ease;
+      min-height:30vh;
+    }
+    .quran-verse.show {
+      opacity:1;
+      transform:translateY(0);
+    }
+    .quran-verse .arabic {
+      font-size:30px;
+      font-weight:500;
+      display:block;
+      margin-bottom:12px;
+      min-height:20vh;
+    }
+    .quran-verse .translation {
+      font-style:italic;
+      font-size:15px;
+      color:#3a4a3a;
+    }
+
+    /* Music Button */
+    .music-btn {
+      position:fixed;
+      top:15px;
+      right:15px;
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--sage),var(--sage-dark));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-size:18px;
+      z-index:999;
+      cursor:pointer;
+      box-shadow:0 6px 15px rgba(0,0,0,.15);
+    }
+    .music-btn.muted {
+      opacity:.6;
+    }
+    .stat { display:flex; gap:30px; justify-content:center; margin-bottom:15px; font-weight:bold; }
+form { max-width:450px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
+form input, form textarea, form select { padding:10px; border-radius:10px; border:1px solid #ccc; font-size:14px; }
+form button { padding:12px; border-radius:28px; border:none; background:linear-gradient(135deg,#c7a07a,#c7a07a); color:#fff; cursor:pointer; font-size:15px; }
+.ucapan { background:#ffffffcc; padding:12px 15px; border-radius:12px; margin-bottom:10px; box-shadow:0 3px 10px rgba(0,0,0,0.1); font-size:14px; text-align:left; }
+
+    @media(max-width:360px) {
+      .person img { height:210px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Preview watermark -->
+  <div class="preview-watermark">•Dhsytstudio•</div>
+
+  <!-- Audio -->
+  <audio id="music" loop>
+    <source src="musik.mp3" type="audio/mpeg">
+  </audio>
+  <div class="music-btn muted" id="musicBtn" onclick="toggleMusic()">🔇</div>
+
+  <!-- COVER -->
+  <section class="cover show">
+    <div class="cover-box">
+      <div class="cover-photo">
+        <img src="bg.jpg" alt="Foto Mempelai">
+      </div>
+      <p>Undangan Pernikahan</p>
+      <h2 class="nama-luxury">Putra & Putri</h2>
+
+      <button id="openBtn">Buka Undangan</button>
+
+      <div id="guestName" style="margin-top:15px; font-size:18px;"></div>
+    </div>
+  </section>
+
+  <!-- MEMPELAI -->
+  <section id="couple">
+    <p>Assalamualaikum Wr. Wb.</p>
+    <p>Dengan Memohon Rahmat dan Ridho Dari Allah SWT, Kami Bermaksud Menyelenggarakan Pernikahan Putra Putri Kami:</p>
+    <div class="couple">
+      <div class="person">
+        <img src="foto-pria.jpg" alt="Foto Putra Pratama">
+        <h1 class="nama-luxury">Putra Ahmad</h1>
+        <p>Putra pertama dari pasangan<br>Bapak Junaidi & Ibu Rika</p>
+      </div>
+      <div class="person">
+        <img src="foto-wanita.jpg" alt="Foto Putri Anggraini">
+        <h2 class="nama-luxury">Putri Anggraini</h2>
+        <p>Putri ke-2 dari pasangan<br>Bapak Sasuke & Ibu Rukayah</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACARA -->
+  <section>
+    <h2>Detail Acara</h2>
+    <div class="card">
+      <h3>Akad Nikah</h3>
+      <p>Minggu, 12 Mei 2026<br>08.00 WIB</p>
+    </div>
+    <div class="card">
+      <h3>Resepsi</h3>
+      <p>Minggu, 12 Mei 2026<br>11.00 WIB</p>
+    </div>
+    <div class="card">
+      <h3>Lokasi Acara</h3>
+      <p>Bertempat Di Kp karang Kobong Ds Tirem, Kec Lebak Wangi, Kab Serang Banten</p>
+      <iframe src="https://www.google.com/maps?q=Jakarta&output=embed"></iframe>
+    </div>
+  </section>
+
+  <!-- DOA -->
+  <section>
+    <div class="quran-verse">
+      <span class="arabic">
+        وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا    
+        وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ    
+        إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ
+      </span>
+      <span class="translation">
+        “Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, agar kamu merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir.” (QS. Ar-Ruum:21)
+      </span>
+    </div>
+  </section>
+
+  <!-- GALLERY + WEDDING GIFT -->
+  <section>
+    <h2>Gallery Wedding</h2>
+    <div class="gallery">
+      <img src="g1.jpeg" alt="Gallery 1">
+      <img src="g2.jpg" alt="Gallery 2">
+      <img src="g3.jpg" alt="Gallery 3">
+      <img src="g4.jpg" alt="Gallery 4">
+    </div>
+
+    <h2 style="margin-top:30px;">Wedding Gift</h2>
+    <div class="card">
+      <p>BCA</p>
+      <strong>1234567890</strong><br>a.n Putra Pratama
+    </div>
+    <p style="margin-top:30px;">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/iberkenan hadir dan memberikan doa restu</p>
+    <p>Wassalamu'alaikum Wr.Wb.</p>
+  </section>
+
+  <!-- BUKU TAMU -->
+<section>
+  <h2>Reservasi Kehadiran</h2>
+  <div class="stat">
+    <div>Hadir: <span id="hadir">0</span></div>
+    <div>Tidak Hadir: <span id="tidak">0</span></div>
+  </div>
+
+  <form id="rsvpForm">
+    <input id="nama" placeholder="Nama Tamu" required>
+    <textarea id="ucapan" placeholder="Ucapan / Doa" required></textarea>
+    <select id="status" required>
+      <option value="" disabled selected>Status Kehadiran</option>
+      <option value="hadir">Hadir</option>
+      <option value="tidak">Tidak Hadir</option>
+    </select>
+    <button type="submit">Kirim</button>
+  </form>
+
+  <div id="listUcapan"></div>
+</section>
+
+  <script>
+    // Tombol & Auto Scroll
+    const openBtn = document.getElementById("openBtn");
+    openBtn.addEventListener("click", () => {
+      document.body.style.overflow = "auto";
+      playMusic();
+      document.getElementById("couple").scrollIntoView({behavior:"smooth"});
+      setTimeout(startAutoScroll,1500);
+    });
+
+    let autoScrollTimer = null;
+    let autoScrollActive = false;
+    function startAutoScroll(){
+      if(autoScrollActive) return;
+      autoScrollActive=true;
+      autoScrollTimer = setInterval(()=>{
+        window.scrollBy(0,0.35);
+        if(window.innerHeight + window.scrollY >= document.body.scrollHeight -2){
+          stopAutoScroll();
+        }
+      },10);
+    }
+    function stopAutoScroll(){ clearInterval(autoScrollTimer); autoScrollActive=false;}
+
+    // Musik
+    const music=document.getElementById("music");
+    const btn=document.getElementById("musicBtn");
+    function playMusic(){ music.play(); btn.classList.remove("muted"); btn.innerHTML="🔊";}
+    function toggleMusic(){ 
+      if(music.paused){ playMusic(); } 
+      else{ music.pause(); btn.classList.add("muted"); btn.innerHTML="🔇";}
+    }
+
+    // Fade-in sections
+    const sections=document.querySelectorAll("section");
+    const verse=document.querySelector(".quran-verse");
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("show");});
+    },{threshold:0.2});
+    [...sections,verse].forEach(s=>observer.observe(s));
+
+    // Countdown
+    const target=new Date("2026-05-12T08:00:00").getTime();
+    setInterval(()=>{
+      const diff=target-new Date().getTime();
+      const d=document.getElementById("d"),h=document.getElementById("h"),m=document.getElementById("m"),s=document.getElementById("s");
+      if(diff<0){ d.textContent=h.textContent=m.textContent=s.textContent=0; return;}
+      d.textContent=Math.floor(diff/86400000);
+      h.textContent=Math.floor(diff/3600000)%24;
+      m.textContent=Math.floor(diff/60000)%60;
+      s.textContent=Math.floor(diff/1000)%60;
+    },1000);
+
+    // Buku tamu
+    let hadir=0,tidak=0;
+    const nama=document.getElementById("nama"), ucapan=document.getElementById("ucapan"), status=document.getElementById("status"), hadirEl=document.getElementById("hadir"), tidakEl=document.getElementById("tidak"), listUcapan=document.getElementById("listUcapan");
+    function kirim(e){
+      e.preventDefault();
+      status.value==="hadir"?hadir++:tidak++;
+      hadirEl.textContent=hadir;
+      tidakEl.textContent=tidak;
+      let div=document.createElement("div");
+      div.className="ucapan";
+      div.innerHTML="<b>"+nama.value+"</b><br>"+ucapan.value;
+      listUcapan.prepend(div);
+      e.target.reset();
+    }
+
+    // Nama tamu dari URL
+    const params = new URLSearchParams(window.location.search);
+    const namaTamu = params.get("namatamu");
+    const guestNameEl = document.getElementById("guestName");
+    if(namaTamu && guestNameEl){
+      guestNameEl.innerHTML = `Kepada Yth.<br><strong>${decodeURIComponent(namaTamu)}</strong>`;
+    }
+  </script>
+
+</body>
+</html>
