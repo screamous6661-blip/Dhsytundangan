@@ -11,27 +11,42 @@
 
   <style>
     :root {
-      --sage:#c7a07a;
-      --sage-dark:#c7a07a;
+      --sage:#8fa38a;
+      --sage-dark:#8fa38a;
     }
+    .gallery-section{
+  position: relative;
+  z-index: 50;
+}
 
-    body {
-      margin:0;
-      font-family:Georgia, sans-serif;
-      color:#c7a07a;
-      scroll-behavior:smooth;
-      background: url('floral-bg.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      overflow:hidden;
-      position:relative;
-    }
+.gallery-marquee,
+.gallery-track,
+.gallery-track img{
+  pointer-events: auto !important;
+}
 
-    /* Luxury font untuk nama mempelai */
-    .nama-luxury {
-      font-family: 'Great Vibes', cursive;
+body {
+  margin:0;
+  font-family:Georgia, sans-serif;
+  color:#8fa38a;
+  scroll-behavior:smooth;
+  background: url('floral-bg.jpeg') no-repeat center center fixed;
+  background-size: cover;
+
+  overflow: hidden;       /* 🔒 KUNCI SCROLL */
+  height: 100vh;
+}
+
+/* Luxury font untuk nama mempelai */
+.nama-luxury {
+  font-family: 'Great Vibes', cursive;
+  white-space: nowrap;        /* 🔑 kunci 1 baris */
+  display: inline-block;     /* cegah auto wrap */
+  text-align: center;
+}
       font-size:35px;
-      margin:50px 0;
-      color:#734128
+      margin:14px 0;
+      color:#8fa38a
     ;
     }
 
@@ -53,7 +68,7 @@
       border-radius:28px;
       font-size:15px;
       cursor:pointer;
-      margin-top:20px;
+      margin-top:15px;
     }
 
     .cover-photo {
@@ -69,19 +84,30 @@
       height:100%;
       object-fit:cover;
     }
+section{
+  min-height: unset !important;
+  height: auto !important;
+  padding: 40px 18px;
+  text-align: center;
+  background: rgba(255,255,255,0.1);
+  border-radius: 20px;
+  margin: 16px 0;
 
-    section {
-      min-height:100vh;
-      padding:32px 18px;
-      text-align:center;
-      opacity:0;
-      transform:translateY(30px);
-      transition:all .8s ease;
-      background: rgba(255,255,255,0.1);
-      border-radius:20px;
-      margin:16px 0;
-    }
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.fade-in{
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .8s ease;
+}
 
+.fade-in.active{
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
     section.show {
       opacity:1;
       transform:translateY(0);
@@ -115,6 +141,10 @@
       max-width:460px;
       border-radius:20px;
     }
+section.gallery-section {
+  margin-top:0;
+  padding-top:10px;
+}
 
     .gallery {
       display:flex;
@@ -136,10 +166,10 @@
     .quran-verse {
       margin-top:20px;
       padding:20px;
-      background:#c7a07a;
+      background:#8fa38;
       border-radius:18px;
       font-family: 'Scheherazade', Georgia, serif;
-      color:#2f3e2f;
+      color:#8fa38;
       line-height:1.7;
       font-size:14px;
       text-align:center;
@@ -189,12 +219,313 @@
     .stat { display:flex; gap:30px; justify-content:center; margin-bottom:15px; font-weight:bold; }
 form { max-width:450px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
 form input, form textarea, form select { padding:10px; border-radius:10px; border:1px solid #ccc; font-size:14px; }
-form button { padding:12px; border-radius:28px; border:none; background:linear-gradient(135deg,#c7a07a,#c7a07a); color:#fff; cursor:pointer; font-size:15px; }
+form button { padding:12px; border-radius:28px; border:none; background:linear-gradient(135deg,#8fa38f,#8fa38f); color:#fff; cursor:pointer; font-size:15px; }
 .ucapan { background:#ffffffcc; padding:12px 15px; border-radius:12px; margin-bottom:10px; box-shadow:0 3px 10px rgba(0,0,0,0.1); font-size:14px; text-align:left; }
 
+.countdown {
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin:0px 0 5px;   /* 🔼 lebih naik */
+}
+
+
+.cd-box {
+  background:rgba(255,255,255,0.75);
+  border-radius:14px;
+  width:50px;        /* 🔽 KECILKAN BOX */
+  padding:8px 4px;   /* 🔽 KECILKAN ISI */
+}
+
+.cd-box span {
+  font-size:17px;    /* 🔽 ANGKA */
+}
+
+.cd-box small {
+  font-size:10px;    /* 🔽 TEKS */
+}
+
+.cd-box span {
+  display:block;
+  font-size:22px;
+  font-weight:bold;
+  color:#3a4a3a;
+}
+
+.cd-box small {
+  font-size:12px;
+  letter-spacing:1px;
+  color:#6b7b6b;
+}
+/* Full Flower Image */
+.flower-full {
+  width:100%;
+  padding:0;
+  margin:10px 0 0;     /* 🔥 JARAK KE BAWAH DIPERKECIL */
+  overflow:hidden;
+}
+
+.flower-full img {
+  width:100%;
+  height:300px;        /* tinggi bisa diatur */
+  object-fit:cover;
+  display:block;
+  border-radius:24px;
+}
+/* FIX DOA AGAR TIDAK FULL 1 LAYAR */
+.doa-section {
+  min-height:auto !important;
+  padding-bottom:10px;
+  margin-bottom:0;
+}
+/* FIX GALLERY AGAR TIDAK 1 LAYAR */
+.gallery-section {
+  min-height:auto !important;   /* 🔑 KUNCI */
+  padding-top:10px;             /* rapat ke atas */
+  margin-top:0;
+}
+/* ===== BUKA KUNCI SEMUA SECTION ===== */
+section{
+  min-height: unset !important;
+  height: auto !important;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.gallery-section{
+  position: relative;
+  z-index: 10;
+  min-height: auto !important;
+  padding-top: 10px !important;
+  margin-top: 0 !important;
+}
+
+.gallery-marquee{
+  overflow: hidden;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.gallery-track{
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: scrollGallery 30s linear infinite;
+}
+
+.gallery-track img{
+  width: 320px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 16px;
+  pointer-events: auto;
+}
+
+/* animasi */
+@keyframes scrollGallery{
+  from{
+    transform: translateX(0);
+  }
+  to{
+    transform: translateX(-50%);
+  }
+  .gallery-section,
+.gallery-marquee,
+.gallery-track,
+.gallery-track img{
+  pointer-events: auto !important;
+  z-index: 5;
+  position: relative;
+}
+}
     @media(max-width:360px) {
       .person img { height:210px; }
     }
+    .rsvp-section {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 24px;
+  padding: 30px 20px;
+  margin: 30px auto;
+  max-width: 600px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.rsvp-card {
+  background: #ffffffdd;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.rsvp-card form input,
+.rsvp-card form textarea,
+.rsvp-card form select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-family: Lato, sans-serif;
+}
+
+.rsvp-card form button {
+  padding: 12px;
+  border-radius: 28px;
+  border: none;
+  background: linear-gradient(135deg,var(--sage),var(--sage-dark));
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rsvp-card form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.stat {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.ucapan-list {
+  margin-top: 20px;
+}
+
+.ucapan {
+  background: #ffffffcc;
+  padding: 14px 18px;
+  border-radius: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: left;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeInUp 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+.instagram-box {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.15); /* transparan elegan */
+  backdrop-filter: blur(2px);           /* efek blur mewah */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* garis halus */
+  border-radius: 14px;
+  text-align: center;
+  font-size: 14px;
+  color: #8fa38f;                           /* kontras dengan background */
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.instagram-box a {
+  display: block;
+  margin-top: 4px;
+  color: #8fa38a;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.instagram-box:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+    /* ===============================
+   PREMIUM GALLERY
+================================ */
+
+.gallery-section{
+  position: relative;
+  z-index: 10;
+  padding: 20px 0 10px;
+}
+
+.gallery-title{
+  margin-bottom: 14px;
+}
+
+.gallery-scroll{
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 18px 20px;
+}
+
+.gallery-scroll::-webkit-scrollbar{
+  display: none;
+}
+
+.gallery-item{
+  flex: 0 0 auto;
+  width: 280px;
+  height: 260px;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0,0,0,.18);
+}
+
+.gallery-item img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s ease;
+}
+
+.gallery-item:hover img{
+  transform: scale(1.08);
+}
+
+/* ===== LIGHTBOX ===== */
+.lightbox{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.lightbox img{
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 18px;
+  animation: zoomIn .4s ease;
+}
+
+@keyframes zoomIn{
+  from{ transform: scale(.8); opacity:0 }
+  to{ transform: scale(1); opacity:1 }
+}
+/* SEMUA SECTION DIKUNCI */
+section:not(.cover) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* SAAT UNLOCK */
+body.unlocked section {
+  opacity: 1;
+  pointer-events: auto;
+}
   </style>
 </head>
 
@@ -216,11 +547,28 @@ form button { padding:12px; border-radius:28px; border:none; background:linear-g
         <img src="bg.jpg" alt="Foto Mempelai">
       </div>
       <p>Undangan Pernikahan</p>
-      <h2 class="nama-luxury">Putra & Putri</h2>
-
+      <h1 class="nama-luxury">Putra & Putri</h1>
+<div class="countdown">
+  <div class="cd-box">
+    <span id="d">0</span>
+    <small>Hari</small>
+  </div>
+  <div class="cd-box">
+    <span id="h">0</span>
+    <small>Jam</small>
+  </div>
+  <div class="cd-box">
+    <span id="m">0</span>
+    <small>Menit</small>
+  </div>
+  <div class="cd-box">
+    <span id="s">0</span>
+    <small>Detik</small>
+  </div>
+</div>
       <button id="openBtn">Buka Undangan</button>
 
-      <div id="guestName" style="margin-top:15px; font-size:18px;"></div>
+<div id="guestName" style="margin-top:15px;"></div>
     </div>
   </section>
 
@@ -229,22 +577,39 @@ form button { padding:12px; border-radius:28px; border:none; background:linear-g
     <p>Assalamualaikum Wr. Wb.</p>
     <p>Dengan Memohon Rahmat dan Ridho Dari Allah SWT, Kami Bermaksud Menyelenggarakan Pernikahan Putra Putri Kami:</p>
     <div class="couple">
-      <div class="person">
-        <img src="foto-pria.jpg" alt="Foto Putra Pratama">
-        <h1 class="nama-luxury">Putra Ahmad</h1>
-        <p>Putra pertama dari pasangan<br>Bapak Junaidi & Ibu Rika</p>
-      </div>
-      <div class="person">
-        <img src="foto-wanita.jpg" alt="Foto Putri Anggraini">
-        <h2 class="nama-luxury">Putri Anggraini</h2>
-        <p>Putri ke-2 dari pasangan<br>Bapak Sasuke & Ibu Rukayah</p>
-      </div>
+  <!-- Putra -->
+  <div class="person">
+    <img src="foto-pria.jpg" alt="Foto Putra Pratama">
+    <h1 class="nama-luxury">Putra Ahmad</h1>
+    <p>Putra pertama dari pasangan<br>Bapak Junaidi & Ibu Rika</p>
+
+    <!-- Kotak Instagram Putra -->
+    <div class="instagram-box">
+      <p>Instagram:</p>
+      <a href="https://instagram.com/putra_ahmad" target="_blank">@putra_ahmad</a>
+    </div>
+  </div>
+
+  <!-- Putri -->
+  <div class="person">
+    <img src="foto-wanita.jpg" alt="Foto Putri Anggraini">
+    <h1 class="nama-luxury">Putri Anggraini</h1>
+    <p>Putri ke-2 dari pasangan<br>Bapak Sasuke & Ibu Rukayah</p>
+
+    <!-- Kotak Instagram Putri -->
+    <div class="instagram-box">
+      <p>Instagram:</p>
+      <a href="https://instagram.com/putri_anggraini" target="_blank">@putri_anggraini</a>
+    </div>
+  </div>
+</div>
     </div>
   </section>
 
   <!-- ACARA -->
   <section>
     <h2>Detail Acara</h2>
+    <p>Insa Allah acara akan dilaksanakan pada :</p>
     <div class="card">
       <h3>Akad Nikah</h3>
       <p>Minggu, 12 Mei 2026<br>08.00 WIB</p>
@@ -261,7 +626,7 @@ form button { padding:12px; border-radius:28px; border:none; background:linear-g
   </section>
 
   <!-- DOA -->
-  <section>
+  <section class="doa-section">
     <div class="quran-verse">
       <span class="arabic">
         وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا    
@@ -272,58 +637,94 @@ form button { padding:12px; border-radius:28px; border:none; background:linear-g
         “Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, agar kamu merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir.” (QS. Ar-Ruum:21)
       </span>
     </div>
-  </section>
+  </section><section class="flower-full">
+  <img src="flower-photo.png" alt="Flower Full">
+</section>
 
-  <!-- GALLERY + WEDDING GIFT -->
-  <section>
-    <h2>Gallery Wedding</h2>
-    <div class="gallery">
-      <img src="g1.jpeg" alt="Gallery 1">
-      <img src="g2.jpg" alt="Gallery 2">
-      <img src="g3.jpg" alt="Gallery 3">
-      <img src="g4.jpg" alt="Gallery 4">
-    </div>
+  <!-- GALLERY + WEDDING GIFT --><section class="gallery-section">
+  <h2 class="gallery-title">Wedding Gallery</h2>
 
-    <h2 style="margin-top:30px;">Wedding Gift</h2>
-    <div class="card">
-      <p>BCA</p>
-      <strong>1234567890</strong><br>a.n Putra Pratama
-    </div>
-    <p style="margin-top:30px;">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/iberkenan hadir dan memberikan doa restu</p>
-    <p>Wassalamu'alaikum Wr.Wb.</p>
-  </section>
+  <div class="gallery-scroll" id="galleryScroll">
+    <div class="gallery-item"><img src="g1.jpeg"></div>
+    <div class="gallery-item"><img src="g2.jpg"></div>
+    <div class="gallery-item"><img src="g3.jpg"></div>
+    <div class="gallery-item"><img src="g4.jpg"></div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <img src="" alt="preview">
+</div>
+
+<!-- WEDDING GIFT -->
+<section class="gift-section">
+  <h2>Wedding Gift</h2>
+  <p>
+    Bagi keluarga, sahabat, dan rekan yang ingin mengirimkan tanda kasih,
+    dapat melalui rekening berikut:
+  </p>
+
+  <div class="card">
+    <p>BCA</p>
+    <strong>1234567890</strong><br>
+    a.n Putra Pratama
+  </div>
+<br>
+  <p class="closing-text">
+    Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila
+    Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.
+  </p>
+
+  <p>Wassalamu'alaikum Wr. Wb.</p>
+</section>
 
   <!-- BUKU TAMU -->
-<section>
+<section class="gift-section rsvp-section">
   <h2>Reservasi Kehadiran</h2>
-  <div class="stat">
-    <div>Hadir: <span id="hadir">0</span></div>
-    <div>Tidak Hadir: <span id="tidak">0</span></div>
+  <p>Silakan konfirmasi kehadiran Anda dan tinggalkan ucapan atau doa terbaik untuk kami.</p>
+
+  <div class="rsvp-card">
+    <form id="rsvpForm">
+      <input id="nama" placeholder="Nama Tamu" required>
+      <textarea id="ucapan" placeholder="Ucapan / Doa" required></textarea>
+      <select id="status" required>
+        <option value="" disabled selected>Status Kehadiran</option>
+        <option value="hadir">Hadir</option>
+        <option value="tidak">Tidak Hadir</option>
+      </select>
+      <button type="submit">Kirim</button>
+    </form>
+
+    <div class="stat">
+      <div>Hadir: <span id="hadir">0</span></div>
+      <div>Tidak Hadir: <span id="tidak">0</span></div>
+    </div>
   </div>
 
-  <form id="rsvpForm">
-    <input id="nama" placeholder="Nama Tamu" required>
-    <textarea id="ucapan" placeholder="Ucapan / Doa" required></textarea>
-    <select id="status" required>
-      <option value="" disabled selected>Status Kehadiran</option>
-      <option value="hadir">Hadir</option>
-      <option value="tidak">Tidak Hadir</option>
-    </select>
-    <button type="submit">Kirim</button>
-  </form>
-
-  <div id="listUcapan"></div>
+  <div id="listUcapan" class="ucapan-list"></div>
 </section>
 
   <script>
     // Tombol & Auto Scroll
-    const openBtn = document.getElementById("openBtn");
-    openBtn.addEventListener("click", () => {
-      document.body.style.overflow = "auto";
-      playMusic();
-      document.getElementById("couple").scrollIntoView({behavior:"smooth"});
-      setTimeout(startAutoScroll,1500);
-    });
+   const openBtn = document.getElementById("openBtn");
+
+openBtn.addEventListener("click", () => {
+  // UNLOCK BODY
+  document.body.classList.add("unlocked");
+  document.body.style.overflow = "auto";
+  document.body.style.height = "auto";
+
+  playMusic();
+
+  // SCROLL KE MEMPELAI
+  document.getElementById("couple").scrollIntoView({
+    behavior: "smooth"
+  });
+
+  // AUTO SCROLL (OPSIONAL)
+  setTimeout(startAutoScroll, 1500);
+});
 
     let autoScrollTimer = null;
     let autoScrollActive = false;
@@ -391,6 +792,54 @@ form button { padding:12px; border-radius:28px; border:none; background:linear-g
       guestNameEl.innerHTML = `Kepada Yth.<br><strong>${decodeURIComponent(namaTamu)}</strong>`;
     }
   </script>
+<script>
+document.querySelectorAll('.fade-in').forEach(el=>{
+  el.classList.add('active');
+});
+</script>
+<script>
+const gallery = document.getElementById('galleryScroll');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
 
+let autoGallery;
+let isInteracting = false;
+
+/* AUTO SCROLL HALUS */
+function startAutoGallery(){
+  autoGallery = setInterval(()=>{
+    if(!isInteracting){
+      gallery.scrollLeft += 0.3;
+
+      if(gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 2){
+        gallery.scrollLeft = 0;
+      }
+    }
+  },16);
+}
+
+/* PAUSE SAAT DISENTUH */
+gallery.addEventListener('touchstart', ()=> isInteracting = true);
+gallery.addEventListener('mousedown', ()=> isInteracting = true);
+
+gallery.addEventListener('touchend', ()=> isInteracting = false);
+gallery.addEventListener('mouseup', ()=> isInteracting = false);
+
+/* LIGHTBOX */
+gallery.querySelectorAll('img').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    lightbox.style.display = 'flex';
+    lightboxImg.src = img.src;
+  });
+});
+
+lightbox.addEventListener('click', ()=>{
+  lightbox.style.display = 'none';
+});
+
+
+/* START */
+startAutoGallery();
+</script>
 </body>
 </html>
